@@ -1,5 +1,9 @@
 import { Component } from "react";
 import Form from "./Components/Form/Form";
+import { v4 as uuidv4 } from "uuid";
+import ContactList from "./Components/ContactList/ContactList";
+import "./App.css";
+import Filter from "./Filter/Filter";
 
 class App extends Component {
   state = {
@@ -12,19 +16,59 @@ class App extends Component {
     filter: "",
   };
 
-  formSubmitHandler = (data) => {
-    console.log(" in app js", data);
+  formSubmitHandler = (object) => {
+    const { name, number } = object;
+    const { contacts } = this.state;
+    if (contacts.map((contact) => contact.name).includes(name.trim()))
+      return alert(`"${name.trim()}" is already in contacts`);
+    if (contacts.map((contact) => contact.number).includes(number.trim()))
+      return alert(`"${number.trim()}" is already in contacts`);
+
+    const newObject = {
+      id: uuidv4(),
+      name,
+      number,
+    };
+    this.setState((prevState) => ({
+      contacts: [...prevState.contacts, newObject],
+    }));
+  };
+
+  handleInputFilter = () => {
+    const { contacts, filter } = this.state;
+    const filterToLowerCase = filter.toLocaleLowerCase().trim();
+
+    console.log(contacts);
+
+    return contacts.filter((contact) =>
+      contact.name.toLocaleLowerCase().trim().includes(filterToLowerCase)
+    );
+  };
+
+  deleteContact = (contactId) => {
+    this.setState((prevState) => ({
+      contacts: prevState.contacts.filter(
+        (contact) => contact.id !== contactId
+      ),
+    }));
   };
 
   render() {
     return (
       <div className="App">
-        <h1>Phonebook</h1>
-        <Form onSubmit={this.formSubmitHandler} />
-        <h2>Contacts</h2>
-        <ul>
-          <li></li>
-        </ul>
+        <div className="InputWrapper">
+          <h1 className="inputTitle">Phonebook</h1>
+          <Form onSubmit={this.formSubmitHandler} />
+          <br />
+          <Filter />
+        </div>
+        <div className="contactsSection">
+          <h2 className="contactsSectionTitle">Contacts</h2>
+          <ContactList
+            contacts={this.handleInputFilter()}
+            onDelete={this.deleteContact}
+          />
+        </div>
       </div>
     );
   }

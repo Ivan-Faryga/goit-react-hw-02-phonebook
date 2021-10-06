@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { v4 as uuid } from "uuid";
+import s from "./Form.module.css";
 
 class Form extends Component {
   state = {
@@ -27,8 +28,10 @@ class Form extends Component {
     const uniqueIdNumber = uuid();
     return (
       <form onSubmit={this.handleSubmit}>
-        <h2>Phonebook</h2>
-        <label htmlFor={uniqueIdName}>Name</label>
+        <label htmlFor={uniqueIdName} className={s.formLabel}>
+          Name
+        </label>
+        <br />
         <input
           id={uniqueIdName}
           type="text"
@@ -38,8 +41,13 @@ class Form extends Component {
           title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
           required
           onChange={this.handleInputChange}
+          className={s.formInput}
         />
-        <label htmlFor={uniqueIdNumber}>Number</label>
+        <br />
+        <label htmlFor={uniqueIdNumber} className={s.formLabel}>
+          Number
+        </label>
+        <br />
         <input
           id={uniqueIdNumber}
           type="tel"
@@ -49,9 +57,12 @@ class Form extends Component {
           title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
           required
           onChange={this.handleInputChange}
+          className={s.formInput}
         />
-
-        <button>add</button>
+        <br />
+        <button type="submit" className={s.formBtn}>
+          add
+        </button>
       </form>
     );
   }
