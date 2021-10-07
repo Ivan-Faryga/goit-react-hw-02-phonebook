@@ -38,8 +38,6 @@ class App extends Component {
     const { contacts, filter } = this.state;
     const filterToLowerCase = filter.toLocaleLowerCase().trim();
 
-    console.log(contacts);
-
     return contacts.filter((contact) =>
       contact.name.toLocaleLowerCase().trim().includes(filterToLowerCase)
     );
