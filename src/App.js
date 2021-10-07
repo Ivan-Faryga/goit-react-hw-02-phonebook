@@ -45,6 +45,11 @@ class App extends Component {
     );
   };
 
+  handleInputChange = (evt) => {
+    const { name, value } = evt.currentTarget;
+    this.setState({ [name]: value });
+  };
+
   deleteContact = (contactId) => {
     this.setState((prevState) => ({
       contacts: prevState.contacts.filter(
@@ -60,7 +65,7 @@ class App extends Component {
           <h1 className="inputTitle">Phonebook</h1>
           <Form onSubmit={this.formSubmitHandler} />
           <br />
-          <Filter />
+          <Filter value={this.state.filter} onChange={this.handleInputChange} />
         </div>
         <div className="contactsSection">
           <h2 className="contactsSectionTitle">Contacts</h2>
